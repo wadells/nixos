@@ -50,6 +50,22 @@
   hardware.bluetooth.enable = false;
 
 
+  boot.blacklistedKernelModules = [
+    # Macbooks don't have PS2 capabilities, and the I8042 driver spams an err like
+    # the following on boot:
+    #
+    # Dec 26 09:43:17 nix kernel: i8042: No controller found
+    #
+    # This is harmless, but it is noise in the logs when I'm looking for real errors.
+    #
+    # Alas atkbd was built into nixpkgs here:
+    #
+    # https://github.com/NixOS/nixpkgs/commit/1c22734cd2e67842090f5d59a6c7b2fb39c1cf66
+    #
+    # so there isn't a good way to remove it from boot.kernelModules
+    "atkbd"
+  ];
+
   # not with GNOME3 which requires networkmanager
   networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
