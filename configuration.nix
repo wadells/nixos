@@ -40,7 +40,7 @@
   # Bus 002 Device 003: ID 05ac:8404 Apple, Inc. Internal Memory Card Reader
   powerManagement.scsiLinkPolicy = null;
 
-  # Bluetoos support seemed busted as of 2015-12-26
+  # Bluetooth support seemed busted as of 2015-12-26
   # journalctl was turning up messages like the follwoing every boot:
   #
   # Dec 26 09:11:34 nix bluetoothd[511]: Parsing /nix/store/sd154zk2qfxqd3rsbwimnaqpsca1hflg-bluez-4.101/etc/bluetooth/input.conf failed: No such file or directory
