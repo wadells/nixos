@@ -132,7 +132,7 @@
   users.extraUsers.walt = {
     isNormalUser = true;
     uid = 1000;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [ "wheel" "networkmanager" "audio" ];
     shell = "/run/current-system/sw/bin/zsh";
   };
 
