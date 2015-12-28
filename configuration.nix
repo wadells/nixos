@@ -97,9 +97,6 @@
 
   # List services to enable:
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
   # Setup preferred desktop env
   services.xserver = {
     enable = true;
