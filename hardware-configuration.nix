@@ -13,15 +13,15 @@
     "kvm-intel" # for nix containers
   ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/16e8f2ea-fed4-49d7-9c73-1774a2b541bd";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/16e8f2ea-fed4-49d7-9c73-1774a2b541bd";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/BBCA-1CFC";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/BBCA-1CFC";
+    fsType = "vfat";
+  };
 
   swapDevices = [ ];
 
