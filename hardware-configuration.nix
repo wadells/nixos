@@ -7,8 +7,10 @@
   imports = [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix> ];
 
   boot.initrd.availableKernelModules = [ "uhci_hcd" "ehci_pci" "ahci" "usbhid" "usb_storage" ];
+
   boot.kernelModules = [
-    "applesmc" # apple sudden motion sensor (can protect hdd)
+    "applesmc" # apple system managment controller, regulates fan and other hw goodies
+    "coretemp" # recommended by lm-sensors, apparently present already, but I con't figure out what was loading it
     "brcmsmac" # wireless
     "kvm-intel" # for nix containers
   ];
