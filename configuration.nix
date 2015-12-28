@@ -68,10 +68,9 @@
 
   # not with GNOME3 which requires networkmanager
   networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
+
   networking.networkmanager.enable = true;
   networking.hostName = "nix";
-
-  nixpkgs.config.allowUnfree = true;  # Allow broadcom drivers
 
   # Select internationalisation properties.
   i18n = {

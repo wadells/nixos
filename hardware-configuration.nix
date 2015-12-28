@@ -9,10 +9,9 @@
   boot.initrd.availableKernelModules = [ "uhci_hcd" "ehci_pci" "ahci" "usbhid" "usb_storage" ];
   boot.kernelModules = [
     "applesmc" # apple sudden motion sensor (can protect hdd)
+    "brcmsmac" # wireless
     "kvm-intel" # for nix containers
-    "wl" # wireless
   ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/16e8f2ea-fed4-49d7-9c73-1774a2b541bd";
