@@ -41,12 +41,12 @@
   hardware.bluetooth.enable = false;
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/16e8f2ea-fed4-49d7-9c73-1774a2b541bd";
+    device = "/dev/disk/by-label/nixos";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/BBCA-1CFC";
+    device = "/dev/disk/by-label/EFI";
     fsType = "vfat";
   };
 
