@@ -1,115 +1,84 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
+# Edit this configuration file to define what should be installed on your system.
+# Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
+
+# Todo
+# - homemanager
+# - fingerprint stuff - not available until kde 5.24
+# - terminal (and fonts)
 
 { config, pkgs, ... }:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+    [
+      ./hardware-configuration.nix  # Include the results of the hardware scan.
     ];
 
-  # Use the gummiboot efi boot loader.
-  boot.loader.gummiboot.enable = true;
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # journalctl -u systemd-udev -b turned up records like:
-  #
-  # Dec 26 07:21:33 nix systemd-udevd[396]: error opening ATTR{/sys/devices/pci0000:00/0000:00:1d.7/usb2/2-1/2-1.1/2-1.1:1.0/host6/scsi_host/host6/link_power_management_policy} for writing: Permission denied
-  #
-  # these seemed to stem from the following rule in /etc/udev/rules.d/10-local.rules:
-  #
-  # SUBSYSTEM=="scsi_host", ACTION=="add", KERNEL=="host*", ATTR{link_power_management_policy}="min_power"
-  #
-  # 0000:00:1d.7 appeared to be the usb device managing the internal sd card reader:
-  #
-  # walt@nix:~$ sudo lsusb -v -s 1 | grep -B30 1d.7
-  # Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-  # snip...
-  #   iSerial                 1 0000:00:1d.7
-  #
-  # walt@nix:~$ lsusb -t
-  # /:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/8p, 480M
-  #   |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/2p, 480M
-  #       |__ Port 1: Dev 3, If 0, Class=Mass Storage, Driver=usb-storage, 480M
-  #
-  # walt@nix:~$ lsusb
-  # Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-  # Bus 002 Device 002: ID 0424:2513 Standard Microsystems Corp. 2.0 Hub
-  # Bus 002 Device 003: ID 05ac:8404 Apple, Inc. Internal Memory Card Reader
-  powerManagement.scsiLinkPolicy = null;
-
-
-  # not with GNOME3 which requires networkmanager
-  networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
-
   networking.networkmanager.enable = true;
-  networking.hostName = "nix";
+  networking.hostName = "ftl"; # Define your hostname.
 
-  # Select internationalisation properties.
-  i18n = {
-    consoleFont = "Lat2-Terminus16";
-    consoleKeyMap = "/etc/caps2esc.map";
-    defaultLocale = "en_US.UTF-8";
-  };
+  # Set your time zone.
+  time.timeZone = "America/Boise";
 
-  # UTC #1 timezone for digital nomads
-  # time.timeZone = "Europe/Amsterdam";
+  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+  # Per-interface useDHCP will be mandatory in the future, so this generated config replicates the default behaviour.
+  networking.useDHCP = false;
+  networking.interfaces.wlp170s0.useDHCP = true;
 
-  # List packages installed in system profile.
-  #
-  # Really most things go in my user profile. These are the things I want
-  # around in the system/root account.
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
+
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   environment.systemPackages = with pkgs; [
-    acpi # power mgmt
-    pciutils # introspect pci connections (e.g. network card)
     vim
-    usbutils # introspect usb devices
     zsh
+    firefox
+    git
+    spotify
+    zoom
   ];
+  environment.variables = { EDITOR = "vim"; };
 
-
-  # List services to enable:
-
-  # Setup preferred desktop env
-  services.xserver = {
-    enable = true;
-
-    displayManager.gdm = {
-      enable = true;
-      autoLogin.user = "walt";
-      autoLogin.enable = false;
-    };
-
-    desktopManager.gnome3.enable = true;
-
-    # enable touch pad
-    synaptics = {
-      enable = true;
-      twoFingerScroll = true;
-      tapButtons = true;
-      buttonsMap = [ 1 3 2 ];
-      accelFactor = "0.01";
-      palmDetect = true;
-    };
-  };
-
-  # need this for walt's default shell to be zsh
-  # taken from https://nixos.org/wiki/Using_the_ZSH_SHELL
+  programs.steam.enable = true;
   programs.zsh.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.extraUsers.walt = {
-    isNormalUser = true;
-    uid = 1000;
-    extraGroups = [ "wheel" "networkmanager" "audio" ];
-    shell = "/run/current-system/sw/bin/zsh";
+  virtualisation.docker.enable = true;
+  virtualisation.docker.enableOnBoot = false;
+
+  # services.fprintd.enable = true; # not available until kde 5.24
+  services.printing.enable = true;
+  services.xserver = {
+    enable = true;
+    libinput.enable = true;
+    displayManager = {
+      sddm.enable = true;
+    }; 
+    desktopManager.plasma5.enable = true;
   };
 
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
+
+  users.groups.walt.gid = 1000;
+  users.users.walt = {
+    uid = 1000;
+    group = "walt";
+    isNormalUser = true;
+    home = "/home/walt";
+    description = "Walt";
+    extraGroups = ["wheel" "networkmanager" "docker"];
+    shell = pkgs.zsh;
+  };
   security.sudo.wheelNeedsPassword = false;
 
-  # The NixOS release to be compatible with for stateful data such as databases.
-  system.stateVersion = "15.09";
-
+  # This value determines the NixOS release from which the default settings for stateful data, like file locations and database 
+  # versions on your system were taken. It‘s perfectly fine and recommended to leave this value at the release version of the first 
+  # install of this system. Before changing this value read the documentation for this option (e.g. man configuration.nix or on 
+  # https://nixos.org/nixos/options.html).
+  system.stateVersion = "21.05"; # Did you read the comment?
 }
