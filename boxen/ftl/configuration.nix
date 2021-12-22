@@ -46,6 +46,7 @@
 
   programs.steam.enable = true;
   programs.zsh.enable = true;
+  programs.kdeconnect.enable = true;
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false;
