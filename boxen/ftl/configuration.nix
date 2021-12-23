@@ -64,6 +64,7 @@
 
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+  hardware.bluetooth.enable = true;
 
   users.groups.walt.gid = 1000;
   users.users.walt = {
