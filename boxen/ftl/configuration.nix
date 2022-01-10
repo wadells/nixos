@@ -50,6 +50,7 @@
 
     spotify
     zoom
+    discord
   ];
   environment.variables = { EDITOR = "vim"; };
 
@@ -71,14 +72,14 @@
     desktopManager.plasma5.enable = true;
   };
 
-  # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
 
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
+  # services.pipewire = {
+  #   enable = true;
+  #   alsa.enable = true;
+  #   pulse.enable = true;
+  # };
 
   hardware.bluetooth.enable = true;
 
