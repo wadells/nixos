@@ -46,6 +46,8 @@
     zsh
     firefox
     git
+    plasma5Packages.kamoso # for testing the camera
+
     spotify
     zoom
   ];
