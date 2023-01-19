@@ -13,6 +13,7 @@
   imports =
     [
       ./hardware-configuration.nix  # Include the results of the hardware scan.
+      <home-manager-22.11/nixos>
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -93,6 +94,15 @@
     extraGroups = ["wheel" "networkmanager" "docker"];
     shell = pkgs.zsh;
   };
+  home-manager.users.walt = {
+    home.packages = [
+      pkgs.ripgrep
+      pkgs.unzip
+    ];
+    programs.zsh.enable = true;
+    home.stateVersion = "22.11";
+  };
+
   security.sudo.wheelNeedsPassword = false;
 
   # This value determines the NixOS release from which the default settings for stateful data, like file locations and database 
