@@ -20,11 +20,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Make my mac bluetooth keboard have the same modifier key layout as the
-  # builtin Framework keyboard.
   boot.kernelParams = [
-    "hid_apple.swap_opt_cmd=1"
-    "hid_apple.swap_fn_leftctrl=1"
+    # walt- Make my mac bluetooth keboard have the same modifier key layout as the
+    # builtin Framework keyboard.
+    # "hid_apple.swap_opt_cmd=1"
+    # "hid_apple.swap_fn_leftctrl=1"
   ];
 
   networking.networkmanager.enable = true;
