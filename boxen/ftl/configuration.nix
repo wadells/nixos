@@ -64,6 +64,15 @@
 
   # services.fprintd.enable = true; # not available until kde 5.24
   services.printing.enable = true;
+  # work with brother printers
+  services.printing.drivers = [ pkgs.brlaser ];
+  # avahi helps autodiscover wifi printers
+  services.avahi.enable = true;
+  services.avahi.nssmdns = true;
+  # scanning
+  # hardware.sane.enable = true;
+  # hardware.sane.extraBackends = [ pkgs.sane-airscan ];
+
   services.xserver = {
     enable = true;
     libinput.enable = true;
