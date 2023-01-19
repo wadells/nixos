@@ -21,6 +21,12 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.kernelParams = [
+    # nix-hardware: For power consumption
+    # https://kvark.github.io/linux/framework/2021/10/17/framework-nixos.html
+    "mem_sleep_default=deep"
+    # https://community.frame.work/t/linux-battery-life-tuning/6665/156
+    "nvme.noacpi=1"
+
     # walt- Make my mac bluetooth keboard have the same modifier key layout as the
     # builtin Framework keyboard.
     # "hid_apple.swap_opt_cmd=1"
