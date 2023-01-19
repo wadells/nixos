@@ -62,7 +62,6 @@
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false;
 
-  # services.fprintd.enable = true; # not available until kde 5.24
   services.printing.enable = true;
   # work with brother printers
   services.printing.drivers = [ pkgs.brlaser ];
@@ -72,6 +71,8 @@
   # scanning
   # hardware.sane.enable = true;
   # hardware.sane.extraBackends = [ pkgs.sane-airscan ];
+
+  services.fprintd.enable = true;
 
   services.xserver = {
     enable = true;
