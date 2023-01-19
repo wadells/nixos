@@ -47,11 +47,11 @@
     zsh
     firefox
     git
-    plasma5Packages.kamoso # for testing the camera
-
     spotify
     zoom
     discord
+
+    plasma5Packages.kamoso # for testing the camera
   ];
   environment.variables = { EDITOR = "vim"; };
 
@@ -84,14 +84,29 @@
 
   hardware.bluetooth.enable = true;
 
+  services.thermald.enable = true;
+  services.tlp = {
+    enable = false;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC="performance";
+      CPU_SCALING_GOVERNOR_ON_BAT="powersave";
+      START_CHARGE_THRESH_BAT1=75;
+      STOP_CHARGE_THRESH_BAT1=80;
+    };
+  };
+
   users.groups.walt.gid = 1000;
   users.users.walt = {
     uid = 1000;
     group = "walt";
-    isNormalUser = true;
     home = "/home/walt";
     description = "Walt";
-    extraGroups = ["wheel" "networkmanager" "docker"];
+    isNormalUser = true;
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "docker"
+    ];
     shell = pkgs.zsh;
   };
   home-manager.users.walt = {
